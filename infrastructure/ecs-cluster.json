@@ -55,24 +55,24 @@
     "ECSCluster" : {
       "Type" : "AWS::ECS::Cluster",
       "Properties" : {
-        "ClusterName" : { "Ref", "EnvironmentName" }
+        "ClusterName" : { "Ref" : "EnvironmentName" }
       }
     },
 
     "ECSAutoScalingGroup" : {
       "Type" : "AWS::AutoScaling::AutoScalingGroup",
       "Properties" : {
-        "VPCZoneIdentifier" : { "Ref", "Subnets" },
-        "LaunchConfigurationName" : { "Ref", "ECSLaunchConfiguration" },
-        "MinSize" : { "Ref", "ClusterSize" },
-        "MaxSize" : { "Ref", "ClusterSize" },
-        "DesiredCapacity" : { "Ref", "ClusterSize" },
+        "VPCZoneIdentifier" : { "Ref" : "Subnets" },
+        "LaunchConfigurationName" : { "Ref" : "ECSLaunchConfiguration" },
+        "MinSize" : { "Ref" : "ClusterSize" },
+        "MaxSize" : { "Ref" : "ClusterSize" },
+        "DesiredCapacity" : { "Ref" : "ClusterSize" },
         "Tags" : [
           { "Key" : "Name", "Value" : { "Fn::Sub" : "${EnvironmentName} ECS host" }, "PropagateAtLaunch" : "true" }
         ]
       },
       "CreationPolicy" : {
-        "ResourceSignal" : { 
+        "ResourceSignal" : {
           "Timeout" : "PT15M"
         }
       },
@@ -85,14 +85,14 @@
         }
       }
     },
-  
+
     "ECSLaunchConfiguration" : {
       "Type" : "AWS::AutoScaling::LaunchConfiguration",
       "Properties" : {
-        "ImageId" : { "Fn::FindInMap : [ "AWSRegionToAMI", { "Ref" : "AWS::Region" }, "AMI" ] },
-        "InstanceType" : { "Ref", "InstanceType" },
-        "SecurityGroups" : [ { "Ref", "SecurityGroup" } ],
-        "IamInstanceProfile" : { "Ref", "ECSInstanceProfile" },
+        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionToAMI", { "Ref" : "AWS::Region" }, "AMI" ] },
+        "InstanceType" : { "Ref" : "InstanceType" },
+        "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ],
+        "IamInstanceProfile" : { "Ref" : "ECSInstanceProfile" },
         "UserData" : { "Fn::Base64": { "Fn::Join" : [ "", [
           "#!/bin/bash\n",
           "yum install -y aws-cfn-bootstrap\n",
@@ -105,7 +105,7 @@
           "config" : {
             "commands" : {
               "01_add_instance_to_cluster" : {
-                "command" : { "Fn::Sub" : "echo ECS_CLUSTER=${ECSCluster} >> /etc/ecs/ecs.config"
+                "command" : { "Fn::Sub" : "echo ECS_CLUSTER=${ECSCluster} >> /etc/ecs/ecs.config" }
               }
             },
             "files" : {
@@ -116,7 +116,7 @@
                 "content" : { "Fn::Join" : [ "", [
                   "[main]\n",
                   "stack=", { "Ref" : "AWS::StackId" }, "\n",
-                  "region=", { "Ref" " "AWS::Region" }, "\n"
+                  "region=", { "Ref" : "AWS::Region" }, "\n"
                 ]]}
               },
               "/etc/cfn/hooks.d/cfn-auto-reloader.conf" : {
@@ -139,7 +139,7 @@
     },
 
     "ECSRole" : {
-      "Type" : "AWS::IAM::Role"
+      "Type" : "AWS::IAM::Role",
       "Properties" : {
         "Path" : "/",
         "RoleName" : { "Fn::Sub" : "${EnvironmentName}-ECSRole-${AWS::Region}" },
@@ -147,8 +147,8 @@
           "Statement": [ {
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
-            "Principal": { 
-              "Service": "ec2.amazonaws.com" 
+            "Principal": {
+              "Service": "ec2.amazonaws.com"
             }
           } ]
         },
@@ -183,7 +183,7 @@
       "Type" : "AWS::IAM::InstanceProfile",
       "Properties" : {
         "Path" : "/",
-        "Roles" : [ { "Ref", "ECSRole" } ]
+        "Roles" : [ { "Ref" : "ECSRole" } ]
       }
     }
   },
@@ -191,7 +191,7 @@
   "Outputs" : {
     "Cluster" : {
       "Description" : "A reference to the ECS cluster",
-      "Value" : { "Ref", "ECSCluster" }
+      "Value" : { "Ref" : "ECSCluster" }
     }
   }
 }
