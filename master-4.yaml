@@ -13,6 +13,8 @@ Description: >
 
     This was slightly modified by HPE to use new template URLs.
 
+    This is a partial variant which only creates the VPC, Security Groups, Load Balancer and ECS Cluster.
+
     Last Modified: 22nd September 2016
     Author: Paul Maddox <pmaddox@amazon.com>
 
@@ -62,30 +64,6 @@ Resources:
                 VPC: !GetAtt VPC.Outputs.VPC
                 SecurityGroup: !GetAtt SecurityGroups.Outputs.ECSHostSecurityGroup
                 Subnets: !GetAtt VPC.Outputs.PrivateSubnets
-
-    ProductService:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: http://templates-irops.s3-website-us-west-2.amazonaws.com/ecs-refarch-cloudformation/services/product-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener 
-                Path: /products
-
-    WebsiteService:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: http://templates-irops.s3-website-us-west-2.amazonaws.com/ecs-refarch-cloudformation/services/website-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                ProductServiceUrl: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "products" ]]
-                Listener: !GetAtt ALB.Outputs.Listener 
-                Path: /
-
 
 Outputs:
 
