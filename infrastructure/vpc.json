@@ -246,7 +246,7 @@
     "VPC" :  {
       "Description" : "A reference to the created VPC",
       "Value" : { "Ref" : "VPC" },
-      "Export" : { "Name" : { "Fn::Sub" : "${AWS::StackName}-VPCID" }
+      "Export" : { "Name" : { "Fn::Sub" : "${AWS::StackName}-VPCID" } }
     },
 
     "PublicSubnets" : {

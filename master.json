@@ -5,14 +5,14 @@
 
   "Resources" : {
     "VPC" : {
-      "Type" : AWS::CloudFormation::Stack",
+      "Type" : "AWS::CloudFormation::Stack",
       "Properties" : {
         "TemplateURL" : "http://templates-irops.s3-website-us-west-2.amazonaws.com/ecs-refarch-cloudformation/infrastructure/vpc.json",
         "Parameters" : {
-          "EnvironmentName" :    { "Ref" : "AWS::StackName" },
-          "VpcCIDR" :            "10.180.0.0/16",
-          "PublicSubnet1CIDR" :  "10.180.8.0/21",
-          "PublicSubnet2CIDR" :  "10.180.16.0/21",
+          "EnvironmentName" : { "Ref" : "AWS::StackName" },
+          "VpcCIDR" : "10.180.0.0/16",
+          "PublicSubnet1CIDR" : "10.180.8.0/21",
+          "PublicSubnet2CIDR" : "10.180.16.0/21",
           "PrivateSubnet1CIDR" : "10.180.24.0/21",
           "PrivateSubnet2CIDR" : "10.180.32.0/21"
         }
@@ -20,10 +20,10 @@
     },
 
     "SecurityGroups" : {
-      "Type" : AWS::CloudFormation::Stack",
+      "Type" : "AWS::CloudFormation::Stack",
       "Properties" : {
         "TemplateURL" : "http://templates-irops.s3-website-us-west-2.amazonaws.com/ecs-refarch-cloudformation/infrastructure/security-groups.json",
-        "Parameters" :  {
+        "Parameters" : {
           "EnvironmentName" : { "Ref" : "AWS::StackName" },
           "VPC" : { "Fn::GetAtt" : [ "VPC", "Outputs.VPC" ] }
         }
@@ -31,7 +31,7 @@
     },
 
     "ALB" : {
-      "Type" : AWS::CloudFormation::Stack",
+      "Type" : "AWS::CloudFormation::Stack",
       "Properties" : {
         "TemplateURL" : "http://templates-irops.s3-website-us-west-2.amazonaws.com/ecs-refarch-cloudformation/infrastructure/load-balancers.json",
         "Parameters" : {
@@ -44,7 +44,7 @@
     },
 
     "ECS" : {
-      "Type" : AWS::CloudFormation::Stack",
+      "Type" : "AWS::CloudFormation::Stack",
       "Properties" : {
         "TemplateURL" : "http://templates-irops.s3-website-us-west-2.amazonaws.com/ecs-refarch-cloudformation/infrastructure/ecs-cluster.json",
         "Parameters" : {
@@ -59,7 +59,7 @@
     },
 
     "ProductService" : {
-      "Type" : AWS::CloudFormation::Stack",
+      "Type" : "AWS::CloudFormation::Stack",
       "Properties" : {
         "TemplateURL" : "http://templates-irops.s3-website-us-west-2.amazonaws.com/ecs-refarch-cloudformation/services/product-service/service.json",
         "Parameters" : {
@@ -73,7 +73,7 @@
     },
 
     "WebsiteService" : {
-      "Type" : AWS::CloudFormation::Stack",
+      "Type" : "AWS::CloudFormation::Stack",
       "Properties" : {
         "TemplateURL" : "http://templates-irops.s3-website-us-west-2.amazonaws.com/ecs-refarch-cloudformation/services/website-service/service.json",
         "Parameters" : {
