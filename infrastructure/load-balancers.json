@@ -22,7 +22,8 @@
     "SecurityGroup" : {
       "Description" : "Select the Security Group to apply to the Applicaion Load Balancer",
       "Type" : "AWS::EC2::SecurityGroup::Id"
-    },
+    }
+  },
 
   "Resources" : {
     "LoadBalancer" : {
@@ -32,7 +33,7 @@
         "Subnets" : { "Ref" : "Subnets" },
         "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ],
         "Tags" : [
-          { "Key" : "Name", "Value" : { "Ref", "EnvironmentName" } }
+          { "Key" : "Name", "Value" : { "Ref" : "EnvironmentName" } }
         ]
       }
     },

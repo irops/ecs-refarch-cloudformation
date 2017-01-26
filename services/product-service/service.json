@@ -117,7 +117,7 @@
         "AssumeRolePolicyDocument" : {
           "Statement": [ {
             "Effect": "Allow",
-            "Principal": { "Service": [ "ecs.amazonaws.com" ]},
+            "Principal": { "Service": [ "ecs.amazonaws.com" ] },
             "Action": [ "sts:AssumeRole" ]
           } ]
         },
@@ -141,7 +141,8 @@
               "Resource": "*"
             } ]
           }
-      } ]
+        } ]
+      }
     }
   }
 }
